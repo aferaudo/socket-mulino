@@ -135,6 +135,7 @@ public class JavaInterfaceServer extends MulinoClient{
 						System.out.println("Giocatore selezionato non valido");
 					
 					if(client != null) {
+						
 						System.out.println("Current state:");
 						currentState = client.read();
 						System.out.println(currentState.toString());
@@ -144,15 +145,20 @@ public class JavaInterfaceServer extends MulinoClient{
 						
 						if(player.compareTo(Checker.BLACK)==0) {
 							/*attendo dal server lo stato con la mossa del bianco*/
+							System.out.println("Attendo la mossa dell'avversario...");
 							currentState = client.read();
+							System.out.println(currentState.toString());
+							
+							System.out.println("Invio lo stato all'agente...");
 							pythonOutSock.write(currentState.toCompactString().getBytes());
+							System.out.println("Stato inviato!");
 							
 						}
 						byte [] mossa_byte;
 						while(true) {
 							mossa_byte = new byte[15];
 							
-							System.out.println("\nJavaInterfaceServer: sono in attesa di una mossa...");
+							System.out.println("\nSono in attesa di una mossa dall'agente...");
 							/*leggo la mossa dall'agente*/
 							pythonInSock.read(mossa_byte);
 							String mossa = toText(mossa_byte);
@@ -166,12 +172,21 @@ public class JavaInterfaceServer extends MulinoClient{
 							/*Attendo il nuovo stato di aggiornamento...*/
 							System.out.println("Attendo lo stato di aggiornamento della scacchiera...");
 							currentState = client.read();
+							System.out.println("Stato ricevuto: \n" + currentState.toString());
+							
+							/*Invio il nuovo stato generato dalla mossa dell'agente all'agente*/
+							System.out.println("Invio lo stato all'agente...");
+							pythonOutSock.write(currentState.toCompactString().getBytes());
+							System.out.println("Stato inviato...");
 							
 							/*ricezione mossa dell'avversario */
 							System.out.println("\n\nAttendo mossa dell'avversario...");
 							currentState = client.read();
 							System.out.println(currentState.toString());
+							
+							System.out.println("Invio lo stato all'agente...");
 							pythonOutSock.write(currentState.toCompactString().getBytes());
+							System.out.println("Stato inviato!");
 							
 						}
 					}
