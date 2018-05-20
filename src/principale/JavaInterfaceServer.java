@@ -29,8 +29,6 @@ public class JavaInterfaceServer extends MulinoClient{
 	}
 
 	public static final int PYTHON_PORT = 3033;
-	public static final int PORT_BLACK = 5801;
-	public static final int PORT_WHITE = 5800;
 	
 	public static final String [] mapping = {
 	                                         "a7","d7","g7",
@@ -43,29 +41,8 @@ public class JavaInterfaceServer extends MulinoClient{
 	                                         };
 	
 	public static void main (String [] args) {
-		/*Controllo argomenti*/
 		
-//		int port = -1;
-//		switch(args[0]) {
-//		case "B":
-//			port = JavaInterfaceServer.PYTHON_PORT_BLACK;
-//			break;
-//		case "W":
-//			port = JavaInterfaceServer.PYTHON_PORT_WHITE;
-//			break;
-//		case "--help":
-//			System.out.println("Char accepted:\n" +
-//					"W --> White\n" + 
-//					"B --> Black");
-//			break;
-//		default:
-//			System.out.println("Errore simbolo non riconosciuto!");
-//			System.exit(-1);
-//		}
-//		if(port == -1)
-//			System.exit(-1);
 		
-		System.out.println(PYTHON_PORT);
 		
 		ServerSocket serverSocket = null;
 		Socket pythonSocket = null;
@@ -74,7 +51,7 @@ public class JavaInterfaceServer extends MulinoClient{
 		try {
 			serverSocket = new ServerSocket(PYTHON_PORT);
 			serverSocket.setReuseAddress(true);
-			System.out.println("JavaInterface: avviato, porta: " + PYTHON_PORT);
+			System.out.println("JavaInterface: avviato, porta agente: " + PYTHON_PORT);
 		} catch (Exception e) {
 			System.err.println("JavaInterface: problemi nella creazione della server socket: " + e.getMessage());
 			e.printStackTrace();
@@ -83,7 +60,7 @@ public class JavaInterfaceServer extends MulinoClient{
 
 		/**Per prima cosa si stabilisce una connessione con l'agente python*/
 		try {
-			System.out.println("JavaInterface: in attendo la connessione con l'agente...\n");
+			System.out.println("JavaInterface: attendo la connessione con l'agente...\n");
 
 			try {
 				
